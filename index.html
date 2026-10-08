@@ -20,34 +20,61 @@
   .screen{width:100%; max-width:560px; padding:24px 18px 56px;}
   .hidden{display:none !important;}
 
-  /* 單位詞高亮（橙色） */
   .unit{color:var(--unit); font-weight:800;}
 
   /* ---------- HOME ---------- */
   h1{font-size:1.65rem; margin:10px 0 4px; letter-spacing:.02em;}
-  .sub{color:var(--muted); margin:0 0 24px; font-size:.88rem;}
+  .sub{color:var(--muted); margin:0 0 22px; font-size:.88rem;}
   .sec-title{
     font-size:.75rem; font-weight:700; color:var(--muted);
     letter-spacing:.14em; margin:0 0 10px; display:flex; align-items:center; gap:7px;
   }
   .sec-title.voice{color:var(--voice);}
-  .sec-block{margin-bottom:26px;}
-  .levels{display:grid; gap:9px;}
+  .sec-block{margin-bottom:24px;}
+
+  /* ---------- 摺疊面板 ---------- */
+  .acc{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    margin-bottom:9px; overflow:hidden;
+  }
+  .acc summary{
+    list-style:none; cursor:pointer; padding:15px 18px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-weight:700; font-size:1rem; user-select:none;
+  }
+  .acc summary::-webkit-details-marker{display:none;}
+  .acc summary:active{background:var(--accent-soft);}
+  .acc.voice summary:active{background:var(--voice-soft);}
+  .acc-title{display:flex; align-items:center; gap:9px;}
+  .acc-arrow{
+    font-size:.7rem; color:var(--muted); transition:transform .2s;
+    display:inline-block; line-height:1;
+  }
+  .acc[open] .acc-arrow{transform:rotate(180deg);}
+  .acc-body{
+    padding:4px 12px 14px;
+    border-top:1px solid var(--line);
+    display:grid; gap:7px;
+    animation:fade .2s ease;
+  }
+  @keyframes fade{from{opacity:0; transform:translateY(-4px);} to{opacity:1; transform:none;}}
+
   .level-btn{
     display:flex; align-items:center; justify-content:space-between; gap:14px;
-    background:var(--card); border:1px solid var(--line); border-radius:14px;
-    padding:16px 18px; font-family:inherit; font-size:1rem; color:inherit;
+    background:var(--bg); border:1px solid var(--line); border-radius:11px;
+    padding:13px 16px; font-family:inherit; font-size:.95rem; color:inherit;
     text-align:left; cursor:pointer; transition:.15s;
   }
   .level-btn:active{transform:scale(.98); background:var(--accent-soft);}
-  .level-btn.voice:active{background:var(--voice-soft);}
+  .acc.voice .level-btn:active{background:var(--voice-soft);}
   .lv-title{font-weight:700; flex-shrink:0;}
   .lv-unit{
-    font-size:.92rem; font-weight:700; color:var(--accent);
-    letter-spacing:.02em; text-align:right; line-height:1.35;
+    font-size:.82rem; font-weight:700; color:var(--accent);
+    letter-spacing:.02em; text-align:right;
   }
-  .level-btn.voice .lv-unit{color:var(--voice);}
+  .acc.voice .lv-unit{color:var(--voice);}
 
+  /* ---------- REVIEW SECTION ---------- */
   .review h2{font-size:1.05rem; margin:0 0 12px; display:flex; align-items:center; gap:8px;}
   .badge{
     background:var(--accent-soft); color:var(--accent); font-size:.72rem;
@@ -55,7 +82,14 @@
   }
   .empty{color:var(--muted); font-size:.82rem; line-height:1.7; margin:0;}
 
-  /* ---------- 複習卡片 ---------- */
+  .review-start{
+    width:100%; padding:15px; border-radius:13px; border:none; cursor:pointer;
+    background:var(--accent); color:#fff; font-family:inherit;
+    font-size:1rem; font-weight:700; letter-spacing:.05em;
+    margin-bottom:14px; transition:.15s;
+  }
+  .review-start:active{transform:scale(.98); opacity:.9;}
+
   .review-card{
     background:var(--card); border:1px solid var(--line); border-radius:14px;
     padding:15px 17px; margin-bottom:10px;
@@ -102,7 +136,7 @@
   }
   .icon-btn:active{transform:scale(.92);}
   .star-btn.on{color:var(--gold); border-color:var(--gold); background:#fffaeb;}
-  #levelLabel{font-size:.82rem; color:var(--muted); letter-spacing:.06em; text-align:center;}
+  #levelLabel{font-size:.8rem; color:var(--muted); letter-spacing:.04em; text-align:center;}
 
   .qcard{
     background:var(--card); border:1px solid var(--line); border-radius:20px;
@@ -131,7 +165,6 @@
     margin-top:14px; background:var(--accent-soft); border-radius:16px;
     padding:20px 16px; text-align:center; animation:fade .25s ease;
   }
-  @keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
   .answer-box .lbl{font-size:.72rem; color:var(--muted); letter-spacing:.1em; margin-bottom:10px;}
   .answer-box .val{
     font-size:clamp(1.35rem,7vw,2.1rem); font-weight:800; color:var(--accent);
@@ -141,9 +174,10 @@
   .answer-box .val.cn{color:var(--ink);}
   .answer-box .val-cn{
     font-size:clamp(0.95rem,4.5vw,1.25rem); font-weight:600;
-    color:var(--accent); opacity:.85; margin-top:10px;
+    color:var(--accent); opacity:.9; margin-top:10px;
     word-break:break-word; line-height:1.5;
   }
+  .answer-box .val-cn.num{font-variant-numeric:tabular-nums;}
 
   .actions{margin-top:16px;}
   .primary{
@@ -153,6 +187,32 @@
   }
   .primary:active{transform:scale(.98); opacity:.9;}
   .primary.ghost{background:var(--card); color:var(--accent); border:1px solid var(--accent);}
+
+  /* 複習練習的 ✓ / ✗ 按鈕 */
+  .review-actions{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  .review-actions .primary{padding:17px 10px; font-size:.95rem;}
+  .review-actions .tick{background:#2f6f5e; color:#fff;}
+  .review-actions .cross-ghost{
+    background:var(--card); color:#c2410c;
+    border:1.5px solid #e7c5b0;
+  }
+
+  /* 複習完成覆蓋層 */
+  .review-done{
+    position:fixed; inset:0; background:rgba(20,20,18,.45);
+    display:flex; align-items:center; justify-content:center;
+    padding:24px; z-index:100;
+  }
+  .rd-card{
+    background:var(--card); border-radius:20px; padding:32px 24px;
+    text-align:center; max-width:340px; width:100%;
+    animation:fade .3s ease;
+  }
+  .rd-icon{font-size:3rem; margin-bottom:12px; line-height:1;}
+  .rd-title{font-size:1.2rem; font-weight:800; margin-bottom:10px;}
+  .rd-text{color:var(--muted); font-size:.88rem; margin-bottom:22px; line-height:1.7;}
 </style>
 </head>
 <body>
@@ -162,52 +222,145 @@
   <h1>葡語數字練習</h1>
   <p class="sub">選擇練習模式與難度</p>
 
+  <!-- 文字練習區 -->
   <div class="sec-block">
     <div class="sec-title">📖 文字練習區</div>
-    <div class="levels">
-      <button class="level-btn" data-mode="text" data-level="1">
-        <span class="lv-title">難度一</span>
-        <span class="lv-unit">até centena</span>
-      </button>
-      <button class="level-btn" data-mode="text" data-level="2">
-        <span class="lv-title">難度二</span>
-        <span class="lv-unit">mil – cem mil</span>
-      </button>
-      <button class="level-btn" data-mode="text" data-level="3">
-        <span class="lv-title">難度三</span>
-        <span class="lv-unit">milhão – cem milhões</span>
-      </button>
-      <button class="level-btn" data-mode="text" data-level="4">
-        <span class="lv-title">難度四</span>
-        <span class="lv-unit">mil milhões – cem mil milhões</span>
-      </button>
-    </div>
+
+    <details class="acc">
+      <summary>
+        <span class="acc-title">中文題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="text" data-cat="zh" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="zh" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="zh" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="zh" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>
+        <span class="acc-title">葡文題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="text" data-cat="pt" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="pt" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="pt" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="pt" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>
+        <span class="acc-title">混合題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="text" data-cat="mix" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="mix" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="mix" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="text" data-cat="mix" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
   </div>
 
+  <!-- 語音練習區 -->
   <div class="sec-block">
-    <div class="sec-title voice">🔊 語音練習區（歐葡）</div>
-    <div class="levels">
-      <button class="level-btn voice" data-mode="speech" data-level="1">
-        <span class="lv-title">🔊 難度一</span>
-        <span class="lv-unit">até centena</span>
-      </button>
-      <button class="level-btn voice" data-mode="speech" data-level="2">
-        <span class="lv-title">🔊 難度二</span>
-        <span class="lv-unit">mil – cem mil</span>
-      </button>
-      <button class="level-btn voice" data-mode="speech" data-level="3">
-        <span class="lv-title">🔊 難度三</span>
-        <span class="lv-unit">milhão – cem milhões</span>
-      </button>
-      <button class="level-btn voice" data-mode="speech" data-level="4">
-        <span class="lv-title">🔊 難度四</span>
-        <span class="lv-unit">mil milhões – cem mil milhões</span>
-      </button>
-    </div>
+    <div class="sec-title voice">🔊 語音練習區</div>
+
+    <details class="acc voice">
+      <summary>
+        <span class="acc-title">中文題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="speech" data-cat="zh" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="zh" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="zh" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="zh" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
+
+    <details class="acc voice">
+      <summary>
+        <span class="acc-title">葡文題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="speech" data-cat="pt" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="pt" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="pt" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="pt" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
+
+    <details class="acc voice">
+      <summary>
+        <span class="acc-title">混合題</span>
+        <span class="acc-arrow">▼</span>
+      </summary>
+      <div class="acc-body">
+        <button class="level-btn" data-mode="speech" data-cat="mix" data-level="1">
+          <span class="lv-title">難度一</span><span class="lv-unit">até centena</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="mix" data-level="2">
+          <span class="lv-title">難度二</span><span class="lv-unit">mil – cem mil</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="mix" data-level="3">
+          <span class="lv-title">難度三</span><span class="lv-unit">milhão – cem milhões</span>
+        </button>
+        <button class="level-btn" data-mode="speech" data-cat="mix" data-level="4">
+          <span class="lv-title">難度四</span><span class="lv-unit">mil milhões – cem mil milhões</span>
+        </button>
+      </div>
+    </details>
   </div>
 
   <section class="review">
     <h2>⭐ 複習區 <span id="reviewBadge" class="badge hidden">0</span></h2>
+    <button id="startReviewBtn" class="review-start hidden">▶ 開始複習</button>
     <div id="reviewList"></div>
     <p id="reviewEmpty" class="empty">還沒有加入複習的題目。<br>練習時按右上角的星星即可收藏。</p>
   </section>
@@ -234,6 +387,20 @@
   <div class="actions">
     <button id="revealBtn" class="primary">顯示答案</button>
     <button id="nextBtn" class="primary ghost hidden">下一題 →</button>
+    <div id="reviewActions" class="review-actions hidden">
+      <button id="tickBtn" class="primary tick">✓ 已掌握</button>
+      <button id="crossBtn" class="primary cross-ghost">✗ 再複習</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 複習完成 ============ -->
+<div id="reviewDone" class="review-done hidden">
+  <div class="rd-card">
+    <div class="rd-icon">🎉</div>
+    <div class="rd-title">本次複習完成</div>
+    <div class="rd-text" id="rdText"></div>
+    <button id="rdBackBtn" class="primary">返回主頁</button>
   </div>
 </div>
 
@@ -289,7 +456,7 @@ function toWords(n){
 }
 
 /* =========================================================
-   二、數字 → 中文全稱（純文字）
+   二、數字 → 中文全稱
    ========================================================= */
 const CN_D = ['零','一','二','三','四','五','六','七','八','九'];
 const CN_U = ['','十','百','千'];
@@ -328,7 +495,7 @@ function toChinese(n){
 }
 
 /* =========================================================
-   三、中文全稱 → HTML（只有每級最高單位高亮）
+   三、中文全稱 → HTML（每級最高單位高亮）
    ========================================================= */
 function cnBelow10000HTML(n, hiQian){
   if(n===0) return '';
@@ -370,7 +537,7 @@ function cnToHTML(n){
 }
 
 /* =========================================================
-   四、歐葡文字 → HTML（高亮所有 mil / milhões）
+   四、歐葡文字 → HTML（高亮 mil / milhões）
    ========================================================= */
 function ptToHTML(text){
   return text.replace(/\b(milhões|milhão|mil)\b/gi, '<span class="unit">$1</span>');
@@ -379,7 +546,9 @@ function ptToHTML(text){
 /* =========================================================
    五、工具
    ========================================================= */
-function randomInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function randomInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function fmtInt(n){
   return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
@@ -389,21 +558,39 @@ function levelName(lv){
   return ['','難度一','難度二','難度三','難度四'][lv];
 }
 
-function modeName(m){
-  return m === 'speech' ? '語音練習（歐葡）' : '文字練習';
+const CAT_NAME = {zh:'中文題', pt:'葡文題', mix:'混合題'};
+
+function pageTitle(mode, cat){
+  const cn = CAT_NAME[cat] || '混合題';
+  return (mode === 'speech' ? '語音練習' : '文字練習') + ' · ' + cn;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 /* =========================================================
    六、狀態
    ========================================================= */
-const STORE_KEY = 'pt-number-trainer-review-v8';
+const STORE_KEY = 'pt-number-trainer-review-v13';
 
 const state = {
   mode: 'text',
+  cat: 'mix',
   level: 1,
   current: null,
   revealed: false,
-  review: []
+  review: [],
+  /* 複習練習狀態 */
+  reviewMode: false,
+  reviewQueue: [],
+  reviewAnswered: 0,
+  reviewCorrect: 0
 };
 
 function loadReview(){
@@ -426,26 +613,24 @@ const LEVEL_CFG = {
   4:{min:1000000000,  max:999999999999,  decimal:false}
 };
 
-function makeQuestion(level, mode){
+function makeQuestion(level, mode, cat){
   const cfg = LEVEL_CFG[level];
   const intPart = randomInt(cfg.min, cfg.max);
   let decStr = null;
 
   if(cfg.decimal && Math.random() < 0.55){
     const len = Math.random() < 0.5 ? 1 : 2;
-    decStr = len === 1
-      ? String(randomInt(1,9))
-      : String(randomInt(10,99));
+    decStr = (len === 1)
+      ? String(randomInt(1, 9))
+      : String(randomInt(10, 99));
   }
 
   const numberStr = decStr ? fmtInt(intPart)+','+decStr : fmtInt(intPart);
 
-  /* 歐葡文字 */
   let ptText = toWords(intPart);
   if(decStr) ptText += ' vírgula ' + toWords(+decStr);
   const ptHTML = ptToHTML(ptText);
 
-  /* 中文全稱 */
   let cnText = toChinese(intPart);
   let cnHTML = cnToHTML(intPart);
   if(decStr){
@@ -454,26 +639,32 @@ function makeQuestion(level, mode){
     cnHTML += decCN;
   }
 
-  let kind;
+  let kind, speechLang = null;
+
   if(mode === 'speech'){
     kind = 'speech';
+    if(cat === 'zh')      speechLang = 'zh';
+    else if(cat === 'pt') speechLang = 'pt';
+    else                  speechLang = Math.random() < 0.5 ? 'pt' : 'zh';
   }else{
-    const r = Math.random();
-    if(r < 0.34) kind = 'num2text';      /* 數字題 */
-    else if(r < 0.67) kind = 'pt2num';   /* 歐葡題 */
-    else kind = 'cn2num';                /* 中文題 */
+    if(cat === 'zh'){
+      kind = 'cn2num';
+    }else if(cat === 'pt'){
+      kind = 'pt2num';
+    }else{
+      const r = Math.random();
+      if(r < 0.34) kind = 'num2text';
+      else if(r < 0.67) kind = 'pt2num';
+      else kind = 'cn2num';
+    }
   }
 
-  const q = {
+  return {
     id: 'q' + Date.now() + Math.floor(Math.random()*100000),
-    mode, level, kind, numberStr,
+    mode, cat, level, kind, numberStr,
     ptText, ptHTML, cnText, cnHTML,
-    speechLang: null
+    speechLang
   };
-  if(kind === 'speech'){
-    q.speechLang = 'pt';
-  }
-  return q;
 }
 
 /* =========================================================
@@ -490,12 +681,19 @@ if('speechSynthesis' in window){
   window.speechSynthesis.onvoiceschanged = refreshVoices;
 }
 
-function pickPtVoice(){
+function pickVoice(lang){
   if(!voicesCache.length) refreshVoices();
   const lower = v => (v.lang||'').toLowerCase().replace('_','-');
-  return voicesCache.find(v=>lower(v).startsWith('pt-pt'))
-      || voicesCache.find(v=>lower(v).startsWith('pt'))
-      || null;
+  if(lang === 'pt'){
+    return voicesCache.find(v=>lower(v).startsWith('pt-pt'))
+        || voicesCache.find(v=>lower(v).startsWith('pt'))
+        || null;
+  }else{
+    return voicesCache.find(v=>lower(v).startsWith('zh-tw'))
+        || voicesCache.find(v=>lower(v).startsWith('zh-hk'))
+        || voicesCache.find(v=>lower(v).startsWith('zh'))
+        || null;
+  }
 }
 
 function speak(q){
@@ -504,10 +702,12 @@ function speak(q){
     return;
   }
   window.speechSynthesis.cancel();
-  const utt = new SpeechSynthesisUtterance(q.ptText);
-  utt.lang = 'pt-PT';
+  const isPt = q.speechLang === 'pt';
+  const text = isPt ? q.ptText : q.cnText;
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = isPt ? 'pt-PT' : 'zh-CN';
   utt.rate = 0.88;
-  const v = pickPtVoice();
+  const v = pickVoice(q.speechLang);
   if(v) utt.voice = v;
   window.speechSynthesis.speak(utt);
 }
@@ -525,15 +725,18 @@ function showHome(){
   renderReview();
 }
 
-function showPractice(mode, level){
+function showPractice(mode, level, cat){
   state.mode  = mode;
   state.level = level;
-  state.current = makeQuestion(level, mode);
+  state.cat   = cat;
+  state.reviewMode = false;
+  state.reviewQueue = [];
+  state.current = makeQuestion(level, mode, cat);
   state.revealed = false;
   homeEl.classList.add('hidden');
   practiceEl.classList.remove('hidden');
   document.getElementById('levelLabel').textContent =
-    modeName(mode) + ' · ' + levelName(level);
+    pageTitle(mode, cat) + ' · ' + levelName(level);
   renderQuestion();
 }
 
@@ -545,44 +748,52 @@ const answerCn   = document.getElementById('answerCn');
 const revealBtn  = document.getElementById('revealBtn');
 const nextBtn    = document.getElementById('nextBtn');
 const starBtn    = document.getElementById('starBtn');
+const reviewActions = document.getElementById('reviewActions');
+const tickBtn    = document.getElementById('tickBtn');
+const crossBtn   = document.getElementById('crossBtn');
 
 function renderQuestion(){
   const q = state.current;
   promptArea.innerHTML = '';
   answerBox.classList.add('hidden');
-  answerVal.textContent = '';
   answerVal.innerHTML = '';
   answerVal.classList.remove('num','cn');
   answerCn.innerHTML = '';
+  answerCn.classList.remove('num');
   answerCn.classList.add('hidden');
   revealBtn.classList.remove('hidden');
   nextBtn.classList.add('hidden');
+  reviewActions.classList.add('hidden');
   state.revealed = false;
-  updateStar();
+
+  /* 複習模式：隱藏星星 */
+  if(state.reviewMode){
+    starBtn.classList.add('hidden');
+  }else{
+    starBtn.classList.remove('hidden');
+    updateStar();
+  }
 
   if(q.kind === 'num2text'){
-    /* 題目：數字 */
     const d = document.createElement('div');
     d.className = 'big-num';
     d.textContent = q.numberStr;
     promptArea.appendChild(d);
   }
   else if(q.kind === 'pt2num'){
-    /* 題目：歐葡文字（單位高亮） */
     const d = document.createElement('div');
     d.className = 'big-text';
     d.innerHTML = q.ptHTML;
     promptArea.appendChild(d);
   }
   else if(q.kind === 'cn2num'){
-    /* 題目：中文文字（單位高亮） */
     const d = document.createElement('div');
     d.className = 'big-text cn';
     d.innerHTML = q.cnHTML;
     promptArea.appendChild(d);
   }
   else{
-    /* 語音題：只有播放按鈕 */
+    /* 語音題 */
     const wrap = document.createElement('div');
     wrap.style.display = 'flex';
     wrap.style.flexDirection = 'column';
@@ -606,7 +817,7 @@ function renderQuestion(){
     promptArea.appendChild(wrap);
 
     setTimeout(()=>{
-      if(state.current === q) speak(q);
+      if(state.current === q && state.reviewMode === state.reviewMode) speak(q);
     }, 300);
   }
 }
@@ -616,8 +827,8 @@ function revealAnswer(){
   state.revealed = true;
   const q = state.current;
 
-  /* 重置樣式 */
   answerVal.classList.remove('num','cn');
+  answerCn.classList.remove('num');
   answerCn.classList.add('hidden');
 
   if(q.kind === 'num2text'){
@@ -634,17 +845,37 @@ function revealAnswer(){
     answerCn.innerHTML = q.cnHTML;
     answerCn.classList.remove('hidden');
   }
-  else{
+  else if(q.kind === 'cn2num'){
     /* 中文題 → 答案：數字 + 歐葡 */
     answerVal.textContent = q.numberStr;
     answerVal.classList.add('num');
     answerCn.innerHTML = q.ptHTML;
     answerCn.classList.remove('hidden');
   }
+  else{
+    /* 語音題 */
+    if(q.speechLang === 'pt'){
+      answerVal.innerHTML = q.cnHTML;
+      answerVal.classList.add('cn');
+      answerCn.textContent = q.numberStr;
+      answerCn.classList.add('num');
+      answerCn.classList.remove('hidden');
+    }else{
+      answerVal.innerHTML = q.ptHTML;
+      answerCn.textContent = q.numberStr;
+      answerCn.classList.add('num');
+      answerCn.classList.remove('hidden');
+    }
+  }
 
   answerBox.classList.remove('hidden');
   revealBtn.classList.add('hidden');
-  nextBtn.classList.remove('hidden');
+
+  if(state.reviewMode){
+    reviewActions.classList.remove('hidden');
+  }else{
+    nextBtn.classList.remove('hidden');
+  }
 }
 
 function updateStar(){
@@ -656,23 +887,71 @@ function updateStar(){
 }
 
 /* =========================================================
-   十、複習區（統一顯示：數字 + 歐葡 + 中文）
+   十、複習練習流程
    ========================================================= */
+function startReview(){
+  if(state.review.length === 0) return;
+  state.reviewMode = true;
+  state.reviewQueue = shuffle(state.review);
+  state.reviewAnswered = 0;
+  state.reviewCorrect = 0;
+  homeEl.classList.add('hidden');
+  practiceEl.classList.remove('hidden');
+  document.getElementById('levelLabel').textContent = '⭐ 複習練習';
+  nextReviewQuestion();
+}
+
+function nextReviewQuestion(){
+  if(state.reviewQueue.length === 0){
+    finishReview();
+    return;
+  }
+  state.current = state.reviewQueue.shift();
+  state.revealed = false;
+  renderQuestion();
+}
+
+function finishReview(){
+  const total = state.reviewAnswered;
+  const ok = state.reviewCorrect;
+  document.getElementById('rdText').innerHTML =
+    '共複習 <strong>' + total + '</strong> 題<br>' +
+    '✓ 已掌握 <strong>' + ok + '</strong> 題' +
+    (total - ok > 0 ? '　✗ 待加強 <strong>' + (total - ok) + '</strong> 題' : '');
+  document.getElementById('reviewDone').classList.remove('hidden');
+}
+
+/* =========================================================
+   十一、複習區渲染
+   ========================================================= */
+function reviewTagText(item){
+  const lv = levelName(item.level);
+  if(item.kind === 'speech'){
+    const lang = item.speechLang === 'pt' ? '歐葡' : '中文';
+    return '🔊 ' + lang + '語音 · ' + lv;
+  }
+  const catName = CAT_NAME[item.cat] || '混合題';
+  return '📖 ' + catName + ' · ' + lv;
+}
+
 function renderReview(){
   const list  = document.getElementById('reviewList');
   const empty = document.getElementById('reviewEmpty');
   const badge = document.getElementById('reviewBadge');
+  const startBtn = document.getElementById('startReviewBtn');
   list.innerHTML = '';
 
   const n = state.review.length;
   if(n === 0){
     empty.style.display = 'block';
     badge.classList.add('hidden');
+    startBtn.classList.add('hidden');
     return;
   }
   empty.style.display = 'none';
   badge.textContent = n;
   badge.classList.remove('hidden');
+  startBtn.classList.remove('hidden');
 
   [...state.review].reverse().forEach(item=>{
     const card = document.createElement('div');
@@ -684,7 +963,7 @@ function renderReview(){
     const tag = document.createElement('span');
     const isVoice = (item.kind === 'speech');
     tag.className = 'rc-tag' + (isVoice ? ' voice' : '');
-    tag.textContent = (isVoice ? '🔊 歐葡語音 · ' : '📖 文字 · ') + levelName(item.level);
+    tag.textContent = reviewTagText(item);
 
     const del = document.createElement('button');
     del.className = 'rc-del';
@@ -699,12 +978,10 @@ function renderReview(){
     head.appendChild(tag);
     head.appendChild(del);
 
-    /* 數字 */
     const numRow = document.createElement('div');
     numRow.className = 'rc-num';
     numRow.textContent = item.numberStr;
 
-    /* 歐葡文字（單位高亮）+ 播放按鈕 */
     const ptRow = document.createElement('div');
     ptRow.className = 'rc-pt';
 
@@ -724,7 +1001,6 @@ function renderReview(){
     ptRow.appendChild(ptTxt);
     ptRow.appendChild(playBtn);
 
-    /* 中文全稱（單位高亮） */
     const cnRow = document.createElement('div');
     cnRow.className = 'rc-cn';
     cnRow.innerHTML = item.cnHTML;
@@ -739,22 +1015,58 @@ function renderReview(){
 }
 
 /* =========================================================
-   十一、事件綁定
+   十二、事件綁定
    ========================================================= */
 document.querySelectorAll('.level-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=> showPractice(btn.dataset.mode, +btn.dataset.level));
+  btn.addEventListener('click', ()=> {
+    showPractice(btn.dataset.mode, +btn.dataset.level, btn.dataset.cat);
+  });
 });
 
-document.getElementById('backBtn').addEventListener('click', showHome);
+document.getElementById('backBtn').addEventListener('click', ()=>{
+  if(state.reviewMode){
+    /* 中途退出複習：結束本次複習 */
+    state.reviewMode = false;
+    state.reviewQueue = [];
+  }
+  showHome();
+});
+
+document.getElementById('startReviewBtn').addEventListener('click', startReview);
+
+document.getElementById('rdBackBtn').addEventListener('click', ()=>{
+  document.getElementById('reviewDone').classList.add('hidden');
+  state.reviewMode = false;
+  state.reviewQueue = [];
+  showHome();
+});
 
 revealBtn.addEventListener('click', revealAnswer);
 
 nextBtn.addEventListener('click', ()=>{
-  state.current = makeQuestion(state.level, state.mode);
+  state.current = makeQuestion(state.level, state.mode, state.cat);
   renderQuestion();
 });
 
+tickBtn.addEventListener('click', ()=>{
+  if(!state.reviewMode || !state.revealed) return;
+  /* 已掌握 → 從複習區移除 */
+  state.review = state.review.filter(r => r.id !== state.current.id);
+  saveReview();
+  state.reviewAnswered++;
+  state.reviewCorrect++;
+  nextReviewQuestion();
+});
+
+crossBtn.addEventListener('click', ()=>{
+  if(!state.reviewMode || !state.revealed) return;
+  /* 待加強 → 保留，下次複習再出現 */
+  state.reviewAnswered++;
+  nextReviewQuestion();
+});
+
 starBtn.addEventListener('click', ()=>{
+  if(state.reviewMode) return;
   const q = state.current;
   if(!q) return;
   const idx = state.review.findIndex(r => r.id === q.id);
@@ -772,13 +1084,17 @@ document.addEventListener('keydown', e=>{
   if(practiceEl.classList.contains('hidden')) return;
   if(e.key === ' ' || e.key === 'Enter'){
     e.preventDefault();
-    if(!state.revealed) revealAnswer();
-    else nextBtn.click();
+    if(!state.revealed){
+      revealAnswer();
+    }else if(!state.reviewMode){
+      nextBtn.click();
+    }
+    /* 複習模式下，需用家自行按 ✓ 或 ✗ */
   }
 });
 
 /* =========================================================
-   十二、啟動
+   十三、啟動
    ========================================================= */
 loadReview();
 renderReview();
